@@ -14,7 +14,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.bignerdranch.android.criminalintent.databinding.FragmentCrimeDetailBinding
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 import java.util.UUID
 
 
@@ -83,7 +85,10 @@ class CrimeDetailFragment : Fragment() {
             if (crimeTitle.text.toString() != crime.title) {
                 crimeTitle.setText(crime.title)
             }
-            crimeDate.text = crime.date.toString()
+            val timestamp = crime.date.time
+            val formattedCrimeDate = SimpleDateFormat("EEEE, MMM d, yyyy", Locale.US).format(crime.date)
+            //crimeDate.text = crime.date.toString()
+            crimeDate.text = formattedCrimeDate
             crimeSolved.isChecked = crime.isSolved
         }
     }
