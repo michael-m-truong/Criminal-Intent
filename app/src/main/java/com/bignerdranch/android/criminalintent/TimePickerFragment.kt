@@ -24,6 +24,7 @@ class TimePickerFragment : DialogFragment() {
 
         val calendar = Calendar.getInstance()
         calendar.time = args.crimeTime
+
         val initialHour = calendar.get(Calendar.HOUR_OF_DAY)
         val initialMinute = calendar.get(Calendar.MINUTE)
 
@@ -35,6 +36,7 @@ class TimePickerFragment : DialogFragment() {
             false // Set to true if you want 24-hour format
         )
     }
+
 
     companion object {
         const val REQUEST_KEY_TIME = "REQUEST_KEY_TIME"

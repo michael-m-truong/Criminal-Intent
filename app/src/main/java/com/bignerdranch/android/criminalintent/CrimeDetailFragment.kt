@@ -81,7 +81,23 @@ class CrimeDetailFragment : Fragment() {
         ) { _, bundle ->
             val newDate =
                 bundle.getSerializable(DatePickerFragment.BUNDLE_KEY_DATE) as Date
-            crimeDetailViewModel.updateCrime { it.copy(date = newDate) }
+
+            val formattedTime = binding.crimeTime.text.toString()
+
+            // Create a SimpleDateFormat for parsing the time string
+            val dateFormat = SimpleDateFormat("hh:mm a", Locale.US)
+            // Parse the time string to obtain a Date object
+            val updatedDate = dateFormat.parse(formattedTime)
+            val calendar_time = Calendar.getInstance()
+            calendar_time.time = updatedDate
+            val calendar = Calendar.getInstance()
+            calendar.time = newDate
+            calendar.set(Calendar.HOUR_OF_DAY, calendar_time.get(Calendar.HOUR_OF_DAY))
+            calendar.set(Calendar.MINUTE, calendar_time.get(Calendar.MINUTE))
+            val combinedDateTime = calendar.time
+
+            // Update the crime with the updated date
+            crimeDetailViewModel.updateCrime { it.copy(date = combinedDateTime) }
         }
 
         setFragmentResultListener(
