@@ -17,6 +17,7 @@ import androidx.navigation.fragment.navArgs
 import com.bignerdranch.android.criminalintent.databinding.FragmentCrimeDetailBinding
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.UUID
@@ -82,6 +83,14 @@ class CrimeDetailFragment : Fragment() {
                 bundle.getSerializable(DatePickerFragment.BUNDLE_KEY_DATE) as Date
             crimeDetailViewModel.updateCrime { it.copy(date = newDate) }
         }
+
+        setFragmentResultListener(
+            TimePickerFragment.REQUEST_KEY_TIME
+        ) { _, bundle ->
+            val newTime =
+                bundle.getSerializable(TimePickerFragment.BUNDLE_KEY_TIME) as Date
+            crimeDetailViewModel.updateCrime { it.copy(date = newTime) }
+        }
     }
 
     override fun onDestroyView() {
@@ -100,10 +109,38 @@ class CrimeDetailFragment : Fragment() {
             crimeDate.text = formattedCrimeDate
 
             crimeDate.setOnClickListener {
+                // Make a copy of the current crime date
+//                val updatedCrimeDate = Date(crime.date.time)
+//
+//                // Create a Calendar instance and set it to the copied date
+//                val calendar = Calendar.getInstance()
+//                calendar.time = updatedCrimeDate
+//
+//                // Add 8 hours and 30 minutes to the copied date
+//                calendar.add(Calendar.HOUR_OF_DAY, 8)
+//                calendar.add(Calendar.MINUTE, 30)
+//
+//                // Get the updated date from the Calendar
+//                updatedCrimeDate.time = calendar.timeInMillis
+//
+//                // Now, updatedCrimeDate contains the updated date and time
+//                Log.d("test", updatedCrimeDate.toString())
+//
+//                // Update the UI to display the updated date
+//                binding.crimeDate.text = updatedCrimeDate.toString()
+
                 findNavController().navigate(
                     CrimeDetailFragmentDirections.selectDate(crime.date)
                 )
+            }
 
+
+
+            crimeTime.text = SimpleDateFormat("hh:mm a", Locale.US).format(crime.date)
+            crimeTime.setOnClickListener {
+                findNavController().navigate(
+                    CrimeDetailFragmentDirections.selectTime(crime.date)
+                )
             }
 
             crimeSolved.isChecked = crime.isSolved
