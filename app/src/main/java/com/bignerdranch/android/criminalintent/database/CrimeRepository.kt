@@ -22,7 +22,7 @@ class CrimeRepository private constructor
             DATABASE_NAME
         )
         //.createFromAsset(DATABASE_NAME)
-        .addMigrations(migration_1_2)
+        .addMigrations(migration_1_2,  migration_2_3)
         .build()
 
     fun getCrimes(): Flow<List<Crime>>
