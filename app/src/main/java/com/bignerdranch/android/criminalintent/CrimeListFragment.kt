@@ -66,6 +66,23 @@ class CrimeListFragment : Fragment() {
                 }
             }
         }
+
+        // Observe the isListEmpty StateFlow and control the visibility of views
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                crimeListViewModel.isListEmpty.collect { isEmpty ->
+                    if (isEmpty) {
+                        binding.crimeRecyclerView.visibility = View.GONE
+                        binding.emptyTextView.visibility = View.VISIBLE
+                        binding.actionButton.visibility = View.VISIBLE
+                    } else {
+                        binding.crimeRecyclerView.visibility = View.VISIBLE
+                        binding.emptyTextView.visibility = View.GONE
+                        binding.actionButton.visibility = View.GONE
+                    }
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
