@@ -83,6 +83,10 @@ class CrimeListFragment : Fragment() {
                 }
             }
         }
+
+        binding.actionButton.setOnClickListener {
+            showNewCrime()
+        }
     }
 
     override fun onDestroyView() {
